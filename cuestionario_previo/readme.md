@@ -27,7 +27,7 @@ La siguiente tabla está basada en [2].
 |DROP TABLE|Elimina completamente una tabla existente|
 | | |
 |SELECT|Leer o seleccionar datos|
-|INSERT|Añadir dator|
+|INSERT|Añadir datos|
 |UPDATE|Actualizar datos existentes|
 |DELETE|Eliminar datos existentes|
 |REPLACE|Reemplazar datos nuevos o ya existentes|
