@@ -19,3 +19,7 @@
 
 # Propuesta de diseño PCB
 ![board_taller](https://github.com/fabianchs/taller_instru_lab3/assets/26722437/985a3838-622e-4f18-9c42-be3613115d2e)
+
+
+# Video demostrativo
+[Video](https://youtu.be/nFeRRmKJOsY)
