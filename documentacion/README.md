@@ -17,7 +17,7 @@
 |1|0|0|100mV|
 |1|0|1|10mV|
 
-#Descripción de implementación del software
+## Descripción de implementación del software
 La conexión se logró mediante el script en Python conexión_sqlite3.py, este utiliza la biblioteca sqlite3 para trabajar con una base de datos SQLite llamada "DAQ" en el directorio "database". Primero, se intenta establecer una conexión con la base de datos, si esta no existe, SQLite la creará automáticamente. Luego, se crea un cursor para ejecutar comandos SQL.
 
 El script realiza dos operaciones principales. En primer lugar, elimina la tabla "medicion" si existe en la base de datos. Luego, crea una nueva tabla "medicion" con cinco columnas. La estructura de la tabla incluye campos para autor, fecha, canal, tensión y vector.
