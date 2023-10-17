@@ -27,8 +27,16 @@ El código está protegido con un bloque try...except, lo que significa que mane
 La función send_data_db en Python se utiliza para insertar registros en una tabla de una base de datos SQLite llamada "medicion." La función toma dos argumentos: "autor" y "vector_list," y también establece valores predefinidos para "fecha," "canal," y "tensión." El argumento "vector_list" se procesa y convierte en una cadena de texto. Luego, se ejecuta una consulta SQL para insertar estos datos en la tabla. Si se produce un error durante el proceso, se maneja capturando excepciones y mostrando un mensaje de error.
 
 # Propuesta de diseño PCB
-![board_taller](https://github.com/fabianchs/taller_instru_lab3/assets/26722437/985a3838-622e-4f18-9c42-be3613115d2e)
+Se realizó el siguiente esquemático utilizando EagleSoft:
 
+![PCB1](SchemePCB.png)
+
+Se propuso la siguiente disposición para el diseño de la PCB:
+
+![PCB1](SchemePCBSecond.png)
+
+Se generó el archivo final con las capas importantes del PCB propuesto.
+![PCB1](PCBFinal.png)
 
 # Video demostrativo
 [Video](https://youtu.be/nFeRRmKJOsY)
