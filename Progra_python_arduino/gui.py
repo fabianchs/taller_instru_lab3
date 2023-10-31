@@ -45,7 +45,7 @@ def actualizar_grafica():
         try:   
             linea = ard.readline().decode('utf-8').strip()
 
-            if seleccion_1 == "APAGADO" and seleccion_2 == "APAGADO" and linea:
+            if seleccion_1 == "APAGADO" and seleccion_2 == "APAGADO" and linea:  #Dentro de la computadora es donde debo tratar los datos para que sea mas rapido
                 tiempo_actual, dato = linea.split(',') #Separo el dato del tiempo
                 tiempo_actual = int(tiempo_actual)
                 dato = float(dato)
