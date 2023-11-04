@@ -33,6 +33,10 @@ window_size = 50  # Tamaño de la ventana temporal
 seleccion_1 = "ENCENDIDO"
 seleccion_2 = "ENCENDIDO"
 
+
+tiempo_count = -1 #Variable que ira contanto el tiempo , ira en la funcion de actualizar grafica
+read_count =0     #En esta variable se va a guardar las veces que se leyo un dato para saber en que momento enviar el vector a la base de datos
+
 def actualizar_grafica():
     global lines
     global datos
@@ -44,13 +48,21 @@ def actualizar_grafica():
     while True:
         try:   
             linea = ard.readline().decode('utf-8').strip()
-
+            tiempo_count = tiempo_count + 1 #Le sumo al tiempo
+            
             if seleccion_1 == "APAGADO" and seleccion_2 == "APAGADO" and linea:  #Dentro de la computadora es donde debo tratar los datos para que sea mas rapido
-                tiempo_actual, dato = linea.split(',') #Separo el dato del tiempo
-                tiempo_actual = int(tiempo_actual)
-                dato = float(dato)
-                print("Dato recibido:",dato)
+                dato = linea                       #Tomo el dato analogico leido
+                dato = float(dato)                 #Lo paso a numero
+                dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
+                
+                print("Dato recibido:",dato)       #Verificico que funcione
                 print("Tiempo:",tiempo_actual)
+
+                datos.append(dato)                 #Agrego el dato a la lista
+                tiempos.append(tiempo_actual)      #Agrego el tiempo a la lista
+
+                #Grafica
 
                 lines[0].set_data(tiempos, datos)
                 lines[1].set_data(tiempos2, datos2)
@@ -63,24 +75,34 @@ def actualizar_grafica():
                 
                 fig.canvas.flush_events()
 
-                if len(vector)<2048:
+
+                #Aqui tengo que cambiar el 2048 por 5000
+                
+                if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
-                elif len(vector)==2048:
-                    vector.pop(0)
-                    vector.append(dato)
+                elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
+                    enviar_datos
+                    vector.clear()
                 else:
                     vector.pop(0)
 
+
                     
             if seleccion_1 == "ENCENDIDO" and seleccion_2 == "APAGADO" and linea:
-                tiempo_actual, dato = linea.split(',') #Separo el dato del tiempo
-                tiempo_actual = int(tiempo_actual)
-                dato = float(dato)
-                print("Dato recibido:",dato)
+                dato = linea                       #Tomo el dato analogico leido
+                dato = float(dato)                 #Lo paso a numero
+                dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
+                
+                print("Dato recibido:",dato)       #Verificico que funcione
                 print("Tiempo:",tiempo_actual)
-                datos.append(dato)
-                tiempos.append(tiempo_actual)
 
+                datos.append(dato)                 #Agrego el dato a la lista
+                tiempos.append(tiempo_actual)      #Agrego el tiempo a la lista
+
+
+                #Grafica
+                
                 lines[0].set_data(tiempos, datos)
                 lines[1].set_data(tiempos2, datos2)
                 
@@ -92,24 +114,34 @@ def actualizar_grafica():
                 
                 fig.canvas.flush_events()
 
-                if len(vector)<2048:
+                #Aqui tengo que cambiar el 2048 por 5000
+                
+                if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
-                elif len(vector)==2048:
-                    vector.pop(0)
-                    vector.append(dato)
+                elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
+                    enviar_datos
+                    vector.clear()
                 else:
                     vector.pop(0)
                     
 
             if seleccion_1 == "APAGADO" and seleccion_2 == "ENCENDIDO" and linea:
-                tiempo_actual, dato = linea.split(',') #Separo el dato del tiempo
-                tiempo_actual = int(tiempo_actual)
-                dato = float(dato)
-                print("Dato recibido:",dato)
+                dato = linea                       #Tomo el dato analogico leido
+                dato = float(dato)                 #Lo paso a numero
+                dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
+                
+                print("Dato recibido:",dato)       #Verificico que funcione
                 print("Tiempo:",tiempo_actual)
+
+
+                
                 datos2.append(dato)
                 tiempos2.append(tiempo_actual)
 
+
+                #Grafica
+                
                 lines[0].set_data(tiempos, datos)
                 lines[1].set_data(tiempos2, datos2)
                 
@@ -121,39 +153,53 @@ def actualizar_grafica():
                 
                 fig.canvas.flush_events()
 
-                if len(vector)<2048:
+                #Aqui tengo que cambiar el 2048 por 5000
+                
+                if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
-                elif len(vector)==2048:
-                    vector.pop(0)
-                    vector.append(dato)
+                elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
+                    enviar_datos
+                    vector.clear()
                 else:
                     vector.pop(0)
                 
             if seleccion_1 == "ENCENDIDO" and seleccion_2 == "ENCENDIDO" and linea:
-                tiempo_actual, dato = linea.split(',') #Separo el dato del tiempo
-                tiempo_actual = int(tiempo_actual)
-                dato = float(dato)
-                print("Dato recibido:",dato)
+                dato = linea                       #Tomo el dato analogico leido
+                dato = float(dato)                 #Lo paso a numero
+                dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
+                
+                print("Dato recibido:",dato)       #Verificico que funcione
                 print("Tiempo:",tiempo_actual)
+
+                
                 datos.append(dato)
                 datos2.append(dato)
                 tiempos.append(tiempo_actual)
                 tiempos2.append(tiempo_actual)
+
+
+                #Grafica
                 
                 lines[0].set_data(tiempos, datos)
                 lines[1].set_data(tiempos2, datos2)
+                
                 for ax in [ax1, ax2]:
                     ax.relim()
                     ax.autoscale_view()
                 fig.canvas.flush_events()
 
-                if len(vector)<2048:
+                #Aqui tengo que cambiar el 2048 por 5000
+                
+                if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
-                elif len(vector)==2048:
-                    vector.pop(0)
-                    vector.append(dato)
+                elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
+                    enviar_datos
+                    vector.clear()
                 else:
                     vector.pop(0)
+
+                    
         except KeyboardInterrupt:
             break
     return
@@ -228,26 +274,26 @@ if __name__ == "__main__":
     #------- MUESTRAS FIN
 
             #-------- BOTON GUARDAR INICIO
-
-    def enviar_datos():
-        autor=entry.get()
-        try:
-            if muestra==1024:
-                vector_1 = vector[-1024:]
-            else:
-                vector_1=vector
+    #Ideas, meter esto dentro de la funcion 
+    #def enviar_datos():  
+        #autor=entry.get()
+        #try:
+            #if muestra==1024:
+                #vector_1 = vector[-1024:]
+            #else:
+                #vector_1= vector
             
 
 
-        except:
-            print("la lista no fue accedida correctamente")
+        #except:
+            #print("la lista no fue accedida correctamente")
 
-        vector_1=vector
-        if autor!="":
-            pass
-        else:
-            autor="no especificado"
-        send_data_db(autor, vector_1)
+        #vector_1 = vector
+        #if autor!="":
+            #pass
+        #else:
+            #autor="no especificado"
+        #send_data_db(autor, vector_1)
         
 
     button=customtkinter.CTkButton(master=root, text="GUARDAR", fg_color="violet",command = enviar_datos)

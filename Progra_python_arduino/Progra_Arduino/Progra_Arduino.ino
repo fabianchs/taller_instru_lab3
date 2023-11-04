@@ -67,5 +67,5 @@ void loop() {
   //lcd.print(voltajeA1,2);
   //lcd.print(" C");
 
-  delay(200);  //5000 muestras por segundo
+  delay(1000);  //5000 muestras por segundo
 }
