@@ -11,6 +11,7 @@ import numpy as np
 import serial
 import threading
 import time
+import os
 
 from send_data import send_data_db
 
@@ -20,7 +21,7 @@ datos =     []  #Arreglo de datos
 datos2 =    []
 tiempos=    []  #Arreglo de tiempos
 tiempos2=   []
-
+factor = 0.1106729138;
 # Función de actualización de la gráfica
 
 
@@ -29,9 +30,28 @@ lines = [0,0]
 vector=[0,0,0]
 
 window_size = 50  # Tamaño de la ventana temporal
+def enviar_datos():  
+        autor=entry.get()
+        try:
+            if muestra==1024:
+                vector_1 = vector[-1024:]
+            else:
+                vector_1= vector
+            
 
-seleccion_1 = "ENCENDIDO"
-seleccion_2 = "ENCENDIDO"
+
+        except:
+            print("la lista no fue accedida correctamente")
+
+        vector_1 = vector
+        if autor!="":
+            pass
+        else:
+            autor="no especificado"
+        send_data_db(autor, vector_1)
+
+seleccion_1 = "APAGADO"
+seleccion_2 = "APAGADO"
 
 
 tiempo_count = -1 #Variable que ira contanto el tiempo , ira en la funcion de actualizar grafica
@@ -44,23 +64,27 @@ def actualizar_grafica():
     global tiempos
     global tiempos2
     global seleccion_1
-
+    global tiempo_count
+    global read_count
     while True:
         try:   
             linea = ard.readline().decode('utf-8').strip()
             tiempo_count = tiempo_count + 1 #Le sumo al tiempo
+            os.system('clear')
             
             if seleccion_1 == "APAGADO" and seleccion_2 == "APAGADO" and linea:  #Dentro de la computadora es donde debo tratar los datos para que sea mas rapido
+                read_count = read_count + 1
                 dato = linea                       #Tomo el dato analogico leido
                 dato = float(dato)                 #Lo paso a numero
                 dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                
                 tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
                 
-                print("Dato recibido:",dato)       #Verificico que funcione
-                print("Tiempo:",tiempo_actual)
+                #print("Dato recibido:",dato)       #Verificico que funcione
+                #print("Tiempo:",tiempo_actual)
 
-                datos.append(dato)                 #Agrego el dato a la lista
-                tiempos.append(tiempo_actual)      #Agrego el tiempo a la lista
+                #datos.append(dato)                 #Agrego el dato a la lista
+                #tiempos.append(tiempo_actual)      #Agrego el tiempo a la lista
 
                 #Grafica
 
@@ -80,22 +104,25 @@ def actualizar_grafica():
                 
                 if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
-                elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
-                    enviar_datos
+                    print(len(vector))
+                elif len(vector) == 5000: #Si se llena se envia a la base de datos y luego se limpia
+                    print("Muestras enviadas")
+                    enviar_datos()
                     vector.clear()
-                else:
-                    vector.pop(0)
+                
 
 
                     
             if seleccion_1 == "ENCENDIDO" and seleccion_2 == "APAGADO" and linea:
+                read_count = read_count + 1
                 dato = linea                       #Tomo el dato analogico leido
                 dato = float(dato)                 #Lo paso a numero
-                dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                dato = dato*factor
+                               #Lo multiplico por un factor para que ya me de la temperatura correcta
                 tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
                 
-                print("Dato recibido:",dato)       #Verificico que funcione
-                print("Tiempo:",tiempo_actual)
+                #print("Dato recibido:",dato)       #Verificico que funcione
+                #print("Tiempo:",tiempo_actual)
 
                 datos.append(dato)                 #Agrego el dato a la lista
                 tiempos.append(tiempo_actual)      #Agrego el tiempo a la lista
@@ -118,21 +145,25 @@ def actualizar_grafica():
                 
                 if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
+                    print(len(vector))
+             
                 elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
-                    enviar_datos
+                    print("Muestras enviadas")
+                    enviar_datos()
                     vector.clear()
-                else:
-                    vector.pop(0)
+                
                     
 
             if seleccion_1 == "APAGADO" and seleccion_2 == "ENCENDIDO" and linea:
+                read_count = read_count + 1
                 dato = linea                       #Tomo el dato analogico leido
                 dato = float(dato)                 #Lo paso a numero
                 dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                
                 tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
                 
-                print("Dato recibido:",dato)       #Verificico que funcione
-                print("Tiempo:",tiempo_actual)
+                #print("Dato recibido:",dato)       #Verificico que funcione
+                #print("Tiempo:",tiempo_actual)
 
 
                 
@@ -157,20 +188,24 @@ def actualizar_grafica():
                 
                 if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
+                    print(len(vector))
+                
                 elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
-                    enviar_datos
+                    print("Muestras enviadas")
+                    enviar_datos()
                     vector.clear()
-                else:
-                    vector.pop(0)
+                
                 
             if seleccion_1 == "ENCENDIDO" and seleccion_2 == "ENCENDIDO" and linea:
+                read_count = read_count + 1
                 dato = linea                       #Tomo el dato analogico leido
                 dato = float(dato)                 #Lo paso a numero
                 dato = dato*factor                 #Lo multiplico por un factor para que ya me de la temperatura correcta
+                
                 tiempo_actual = tiempo_count       #Igual a la variable de tiempo que ira contando
                 
-                print("Dato recibido:",dato)       #Verificico que funcione
-                print("Tiempo:",tiempo_actual)
+                #print("Dato recibido:",dato)       #Verificico que funcione
+                #print("Tiempo:",tiempo_actual)
 
                 
                 datos.append(dato)
@@ -193,15 +228,18 @@ def actualizar_grafica():
                 
                 if len(vector) < 5000: #Si es menor a 5000 entonces solo se agregan los datos
                     vector.append(dato)
+                    print(len(vector))
+                  
                 elif len(vector)== 5000: #Si se llena se envia a la base de datos y luego se limpia
-                    enviar_datos
+                    print("Muestras enviadas")
+                    enviar_datos()
                     vector.clear()
-                else:
-                    vector.pop(0)
-
+                    
                     
         except KeyboardInterrupt:
             break
+        except ValueError:
+            pass
     return
 
 
@@ -275,25 +313,7 @@ if __name__ == "__main__":
 
             #-------- BOTON GUARDAR INICIO
     #Ideas, meter esto dentro de la funcion 
-    #def enviar_datos():  
-        #autor=entry.get()
-        #try:
-            #if muestra==1024:
-                #vector_1 = vector[-1024:]
-            #else:
-                #vector_1= vector
-            
-
-
-        #except:
-            #print("la lista no fue accedida correctamente")
-
-        #vector_1 = vector
-        #if autor!="":
-            #pass
-        #else:
-            #autor="no especificado"
-        #send_data_db(autor, vector_1)
+    
         
 
     button=customtkinter.CTkButton(master=root, text="GUARDAR", fg_color="violet",command = enviar_datos)
